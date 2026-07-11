@@ -1,0 +1,40 @@
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  line-height: 1;
+}
+
+.stars__star {
+  color: var(--border-dark);
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 1rem;
+}
+
+.stars__star.is-filled {
+  color: var(--primary);
+}
+
+.stars--sm .stars__star {
+  font-size: 0.8rem;
+}
+.stars--lg .stars__star {
+  font-size: 1.5rem;
+}
+
+button.stars__star {
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+button.stars__star:hover {
+  transform: scale(1.15);
+  color: var(--accent);
+}
+
+.stars__count {
+  margin-left: 0.45rem;
+  font-size: 12px;
+  color: var(--text-muted);
+}

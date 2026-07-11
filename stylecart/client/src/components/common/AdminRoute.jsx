@@ -2,13 +2,12 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
 import Loader from './Loader.jsx';
 
-// Guards routes that require an authenticated admin. Non-admins are sent home;
-// unauthenticated users are sent to login.
+// Guards routes that require an authenticated admin.
 const AdminRoute = () => {
   const { isAuthenticated, isAdmin, loading } = useAuth();
   const location = useLocation();
 
-  if (loading) return <Loader />;
+  if (loading) return <Loader fullPage />;
 
   if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />;
