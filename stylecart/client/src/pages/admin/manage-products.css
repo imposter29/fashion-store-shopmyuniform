@@ -1,0 +1,80 @@
+.manage-products__header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--gutter);
+  flex-wrap: wrap;
+}
+
+.manage-products__header-actions .btn {
+  white-space: nowrap;
+}
+
+.manage-products__header-actions .btn .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* Search input with leading icon */
+.manage-products__search {
+  position: relative;
+  width: 18rem;
+  max-width: 100%;
+}
+
+.manage-products__search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 20px;
+  pointer-events: none;
+}
+
+.manage-products__search .form-input {
+  padding-left: 2.5rem;
+}
+
+/* Row actions */
+.manage-products__actions {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: flex-end;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  background: transparent;
+  color: var(--text-light);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.icon-btn:hover {
+  color: var(--primary);
+  background: var(--bg-secondary);
+}
+
+.icon-btn--danger:hover {
+  color: var(--accent);
+  background: var(--danger-bg);
+}
+
+.icon-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+@media (max-width: 768px) {
+  .manage-products__header-actions {
+    width: 100%;
+  }
+
+  .manage-products__search {
+    width: 100%;
+  }
+}

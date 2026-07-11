@@ -1,0 +1,116 @@
+.dashboard__lead {
+  margin-top: 0.4rem;
+  color: var(--text-light);
+  font-size: 1rem;
+}
+
+/* -------------------------------------------------------------------- */
+/* Stat cards                                                           */
+/* -------------------------------------------------------------------- */
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gutter);
+  margin-bottom: var(--stack-md);
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--surface-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  box-shadow: var(--shadow);
+}
+
+.stat-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  background: var(--bg-secondary);
+  color: var(--primary);
+}
+
+.stat-card__icon .material-symbols-outlined {
+  font-size: 24px;
+}
+
+.stat-card__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.stat-card__label {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 0.25rem;
+}
+
+.stat-card__value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary);
+  line-height: 1.1;
+}
+
+/* -------------------------------------------------------------------- */
+/* Recent orders panel                                                  */
+/* -------------------------------------------------------------------- */
+.dashboard__recent {
+  background: var(--surface-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.dashboard__panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.dashboard__section-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* Table sits flush inside the panel */
+.dashboard__table-wrap.table-wrap {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+@media (max-width: 992px) {
+  .stat-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .stat-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card__value {
+    font-size: 1.6rem;
+  }
+}
