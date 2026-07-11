@@ -4,6 +4,7 @@ const protect = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const {
   getStats,
+  getAdminProducts,
   createProduct,
   updateProduct,
   deleteProduct,
@@ -19,6 +20,7 @@ router.use(protect, admin);
 
 router.get('/stats', getStats);
 
+router.get('/products', getAdminProducts);
 router.post('/products', createProduct);
 router.put('/products/:id', updateProduct);
 router.delete('/products/:id', deleteProduct);
