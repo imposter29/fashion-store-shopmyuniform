@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import api from '../api/axios';
 
 const AuthContext = createContext(null);
@@ -7,38 +7,55 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // On mount, attempt to restore the session from the auth cookie.
+  // Restore the session from the httpOnly auth cookie on first load.
   useEffect(() => {
-    const loadUser = async () => {
+    let active = true;
+    (async () => {
       try {
         const { data } = await api.get('/auth/profile');
-        setUser(data);
-      } catch (err) {
-        setUser(null);
+        if (active) setUser(data);
+      } catch {
+        if (active) setUser(null);
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
+    })();
+    return () => {
+      active = false;
     };
-    loadUser();
   }, []);
 
-  // TODO: implement — placeholder mock functions.
-  const login = async (credentials) => {
-    // const { data } = await api.post('/auth/login', credentials);
-    // setUser(data);
-    return { message: 'TODO' };
-  };
+  const login = useCallback(async (email, password) => {
+    const { data } = await api.post('/auth/login', { email, password });
+    setUser(data);
+    return data;
+  }, []);
 
-  const register = async (details) => {
-    // const { data } = await api.post('/auth/register', details);
-    // setUser(data);
-    return { message: 'TODO' };
-  };
+  const register = useCallback(async (details) => {
+    const { data } = await api.post('/auth/register', details);
+    setUser(data);
+    return data;
+  }, []);
 
-  const logout = async () => {
-    // await api.post('/auth/logout');
-    setUser(null);
-  };
+  const logout = useCallback(async () => {
+    try {
+      await api.post('/auth/logout');
+    } finally {
+      setUser(null);
+    }
+  }, []);
+
+  // Re-fetch the profile (e.g. after wishlist changes).
+  const refreshUser = useCallback(async () => {
+    try {
+      const { data } = await api.get('/auth/profile');
+      setUser(data);
+      return data;
+    } catch {
+      setUser(null);
+      return null;
+    }
+  }, []);
 
   const value = {
     user,
@@ -48,6 +65,7 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
+    refreshUser,
     setUser,
   };
 

@@ -1,52 +1,82 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import api from '../api/axios';
+import { useAuth } from './AuthContext.jsx';
 
 const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
-  const [items, setItems] = useState([]);
+  const { user } = useAuth();
+  const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // TODO: implement — placeholder mock functions.
-  const fetchCart = async () => {
-    // const { data } = await api.get('/cart');
-    // setItems(data);
-    return { message: 'TODO' };
-  };
+  const refreshCart = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { data } = await api.get('/cart');
+      setCartItems(data);
+      return data;
+    } catch {
+      setCartItems([]);
+      return [];
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-  const addToCart = async (product, size, quantity = 1) => {
-    return { message: 'TODO' };
-  };
+  // Load the cart when a user is present; clear it when logged out.
+  useEffect(() => {
+    if (user) {
+      refreshCart();
+    } else {
+      setCartItems([]);
+    }
+  }, [user, refreshCart]);
 
-  const updateItem = async (itemId, quantity) => {
-    return { message: 'TODO' };
-  };
+  const addToCart = useCallback(
+    async (productId, size, quantity = 1) => {
+      await api.post('/cart', { productId, size, quantity });
+      await refreshCart();
+    },
+    [refreshCart]
+  );
 
-  const removeItem = async (itemId) => {
-    return { message: 'TODO' };
-  };
+  const updateQuantity = useCallback(
+    async (itemId, quantity) => {
+      await api.put(`/cart/${itemId}`, { quantity });
+      await refreshCart();
+    },
+    [refreshCart]
+  );
 
-  const clearCart = async () => {
-    setItems([]);
-    return { message: 'TODO' };
-  };
+  const removeFromCart = useCallback(
+    async (itemId) => {
+      await api.delete(`/cart/${itemId}`);
+      await refreshCart();
+    },
+    [refreshCart]
+  );
 
-  const itemCount = items.reduce((sum, i) => sum + (i.quantity || 0), 0);
-  const subtotal = items.reduce(
+  const clearCart = useCallback(async () => {
+    await api.delete('/cart');
+    setCartItems([]);
+  }, []);
+
+  const cartCount = cartItems.reduce((sum, i) => sum + (i.quantity || 0), 0);
+  const cartTotal = cartItems.reduce(
     (sum, i) => sum + (i.product?.price || 0) * (i.quantity || 0),
     0
   );
 
   const value = {
-    items,
+    cartItems,
+    cartCount,
+    cartTotal,
     loading,
-    itemCount,
-    subtotal,
-    fetchCart,
     addToCart,
-    updateItem,
-    removeItem,
+    updateQuantity,
+    removeFromCart,
     clearCart,
-    setItems,
+    refreshCart,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
