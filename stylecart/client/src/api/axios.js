@@ -1,9 +1,14 @@
 import axios from 'axios';
 
-// Central axios instance. baseURL '/api' is proxied to the Express server in
-// dev (see vite.config.js). withCredentials sends the httpOnly auth cookie.
+// In development, baseURL is '/api' and Vite proxies it to the local server.
+// In production (split deploy) set VITE_API_URL to the Render API base,
+// e.g. https://stylecart-api.onrender.com/api
+const baseURL = import.meta.env.VITE_API_URL || '/api';
+
+// Central axios instance. withCredentials sends/receives the httpOnly auth
+// cookie across origins (requires CORS credentials + sameSite:'none' server-side).
 const api = axios.create({
-  baseURL: '/api',
+  baseURL,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
