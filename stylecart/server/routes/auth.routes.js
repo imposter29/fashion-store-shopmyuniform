@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const protect = require('../middleware/auth');
+const { authLimiter } = require('../middleware/rateLimiter');
 const {
   register,
   login,
@@ -8,8 +9,9 @@ const {
   getProfile,
 } = require('../controllers/auth.controller');
 
-router.post('/register', register);
-router.post('/login', login);
+// Rate-limit the endpoints that accept credentials.
+router.post('/register', authLimiter, register);
+router.post('/login', authLimiter, login);
 router.post('/logout', logout);
 router.get('/profile', protect, getProfile);
 

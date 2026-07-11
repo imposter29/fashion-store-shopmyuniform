@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const dotenv = require('dotenv');
 
 // Load environment variables from the repo-root .env before anything else.
@@ -7,6 +8,7 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const helmet = require('helmet');
 
 const connectDB = require('./config/db');
 const { notFound, errorHandler } = require('./middleware/errorHandler');
@@ -23,12 +25,40 @@ const adminRoutes = require('./routes/admin.routes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
+const isProd = process.env.NODE_ENV === 'production';
 
-// Core middleware
+// One or more allowed browser origins (comma-separated), e.g. the Vercel
+// production URL plus any preview URLs. Defaults to the Vite dev server.
+const ALLOWED_ORIGINS = (process.env.CLIENT_ORIGIN || 'http://localhost:5173')
+  .split(',')
+  .map((o) => o.trim())
+  .filter(Boolean);
+
+// Trust the reverse proxy (Render/Railway/etc.) so secure cookies and the
+// real client IP (used by the rate limiter) are handled correctly.
+if (isProd) {
+  app.set('trust proxy', 1);
+}
+
+// Security headers. CSP is disabled because the storefront loads remote
+// images (Unsplash) and Google Fonts; enable + configure it if you later
+// self-host those assets.
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  })
+);
+
+// CORS with credentials so the cross-origin frontend (Vercel) can send the
+// auth cookie to the API (Render). Requests with no Origin (curl, health
+// checks, server-to-server) are allowed through.
 app.use(
   cors({
-    origin: CLIENT_ORIGIN,
+    origin(origin, cb) {
+      if (!origin || ALLOWED_ORIGINS.includes(origin)) return cb(null, true);
+      return cb(new Error(`Origin ${origin} not allowed by CORS`));
+    },
     credentials: true,
   })
 );
@@ -51,7 +81,24 @@ app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/admin', adminRoutes);
 
-// 404 + global error handler (must be last)
+// Optionally serve the built client. Only kicks in when a client build is
+// present next to the API (single-service deploy). In the split deploy the
+// backend on Render has no client build, so it runs API-only and this is
+// skipped automatically.
+if (isProd) {
+  const clientDist = path.resolve(__dirname, '../client/dist');
+  const indexHtml = path.join(clientDist, 'index.html');
+  if (fs.existsSync(indexHtml)) {
+    app.use(express.static(clientDist));
+    // Any non-API GET falls back to index.html for React Router.
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api')) return next();
+      res.sendFile(indexHtml);
+    });
+  }
+}
+
+// 404 (JSON, for unmatched /api routes) + global error handler (must be last)
 app.use(notFound);
 app.use(errorHandler);
 

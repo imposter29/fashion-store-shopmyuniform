@@ -1,5 +1,6 @@
 const asyncHandler = require('../utils/asyncHandler');
 const { generateUniqueSlug } = require('../utils/slugify');
+const escapeRegex = require('../utils/escapeRegex');
 const User = require('../models/User');
 const Product = require('../models/Product');
 const Category = require('../models/Category');
@@ -44,7 +45,7 @@ exports.getStats = asyncHandler(async (req, res) => {
 exports.getAdminProducts = asyncHandler(async (req, res) => {
   const { search } = req.query;
   const query = {};
-  if (search) query.name = { $regex: search, $options: 'i' };
+  if (search) query.name = { $regex: escapeRegex(search), $options: 'i' };
 
   const products = await Product.find(query)
     .populate('category', 'name slug')

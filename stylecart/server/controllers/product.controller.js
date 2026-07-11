@@ -1,4 +1,5 @@
 const asyncHandler = require('../utils/asyncHandler');
+const escapeRegex = require('../utils/escapeRegex');
 const Product = require('../models/Product');
 const Category = require('../models/Category');
 
@@ -10,7 +11,7 @@ exports.getProducts = asyncHandler(async (req, res) => {
   const query = { isActive: true };
 
   if (search) {
-    query.name = { $regex: search, $options: 'i' };
+    query.name = { $regex: escapeRegex(search), $options: 'i' };
   }
 
   if (category) {
