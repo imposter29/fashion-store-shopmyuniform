@@ -1,0 +1,135 @@
+.orders__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--stack-md);
+}
+
+.orders__header .page-title {
+  margin-bottom: 1rem;
+}
+
+.orders__count {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.orders__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.order-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: var(--surface-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  transition: var(--transition);
+}
+
+.order-card:hover {
+  box-shadow: var(--shadow);
+  border-color: var(--border-dark);
+}
+
+.order-card__thumb {
+  width: 72px;
+  height: 96px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-container);
+}
+
+.order-card__info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.order-card__head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.order-card__ref {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--primary);
+  font-size: 1.15rem;
+}
+
+.order-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.order-card__dot {
+  opacity: 0.5;
+}
+
+.order-card__side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.order-card__total {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--primary);
+}
+
+.order-card__view .material-symbols-outlined {
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .order-card {
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .order-card__thumb {
+    width: 60px;
+    height: 80px;
+  }
+  .order-card__ref {
+    font-size: 1.05rem;
+  }
+  .order-card__total {
+    font-size: 1.05rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .order-card {
+    flex-wrap: wrap;
+  }
+  .order-card__side {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-top: 1px solid var(--border);
+    padding-top: 0.85rem;
+  }
+}

@@ -1,0 +1,287 @@
+.order-detail__top {
+  margin-bottom: var(--stack-md);
+}
+
+.order-detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--text-light);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  transition: var(--transition);
+}
+
+.order-detail__back .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.order-detail__back:hover {
+  color: var(--accent);
+}
+
+/* Stepper -------------------------------------------------------------- */
+.stepper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0 0 var(--stack-md);
+  padding: 2rem 1.5rem;
+  background: var(--surface-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.stepper__step {
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: center;
+}
+
+/* connecting line between steps */
+.stepper__step::before {
+  content: '';
+  position: absolute;
+  top: 17px;
+  left: -50%;
+  width: 100%;
+  height: 2px;
+  background: var(--border);
+  z-index: 0;
+}
+
+.stepper__step:first-child::before {
+  display: none;
+}
+
+.stepper__step.is-complete::before {
+  background: var(--primary);
+}
+
+.stepper__dot {
+  position: relative;
+  z-index: 1;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--surface-white);
+  border: 2px solid var(--border-dark);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.stepper__dot .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.stepper__step.is-complete .stepper__dot {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.stepper__step.is-current .stepper__dot {
+  box-shadow: 0 0 0 4px rgba(17, 17, 17, 0.12);
+}
+
+.stepper__label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.stepper__step.is-complete .stepper__label {
+  color: var(--text);
+}
+
+/* Cancelled banner ----------------------------------------------------- */
+.order-cancelled {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--danger-bg);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  color: var(--danger);
+  margin-bottom: var(--stack-md);
+}
+
+.order-cancelled__icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--danger);
+  color: #fff;
+}
+
+.order-cancelled__icon .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.order-cancelled strong {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.order-cancelled p {
+  color: var(--danger);
+  font-size: 0.88rem;
+  opacity: 0.85;
+}
+
+/* Layout --------------------------------------------------------------- */
+.order-detail__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--gutter);
+  align-items: start;
+}
+
+.order-detail__heading {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.order-detail__main .order-detail__heading {
+  margin-top: var(--stack-md);
+}
+
+/* Summary card --------------------------------------------------------- */
+.order-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.order-summary__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.order-summary__row + .order-summary__row {
+  border-top: 1px solid var(--border);
+  padding-top: 0.9rem;
+}
+
+.order-summary__row strong {
+  color: var(--text);
+  text-align: right;
+  font-weight: 600;
+}
+
+/* Items ---------------------------------------------------------------- */
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.order-item__name {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* Aside ---------------------------------------------------------------- */
+.order-detail__aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gutter);
+}
+
+.shipping-block p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 0.3rem;
+}
+
+.shipping-block__name {
+  font-weight: 700;
+  color: var(--text) !important;
+}
+
+.shipping-block__phone {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
+}
+
+.shipping-block__phone .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.order-total-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.order-total-block span {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.order-total-block strong {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+
+/* Responsive ----------------------------------------------------------- */
+@media (max-width: 768px) {
+  .order-detail__grid {
+    grid-template-columns: 1fr;
+  }
+  .stepper {
+    padding: 1.5rem 0.75rem;
+  }
+  .stepper__label {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stepper__dot {
+    width: 30px;
+    height: 30px;
+    font-size: 0.75rem;
+  }
+  .stepper__dot .material-symbols-outlined {
+    font-size: 17px;
+  }
+  .stepper__step::before {
+    top: 14px;
+  }
+  .order-total-block strong {
+    font-size: 1.25rem;
+  }
+}
