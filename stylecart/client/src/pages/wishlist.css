@@ -1,0 +1,50 @@
+.wishlist__header {
+  margin-bottom: var(--stack-md);
+}
+
+.wishlist__header .page-title {
+  margin-bottom: 0.5rem;
+}
+
+.wishlist__count {
+  color: var(--text-light);
+  font-size: 1.05rem;
+}
+
+/* Actions rendered in the ProductCard footer slot */
+.wishlist__actions {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.wishlist__actions .btn {
+  flex: 1 1 0;
+}
+
+.wishlist__remove {
+  gap: 0.35rem;
+}
+
+.wishlist__heart {
+  color: var(--accent);
+  font-size: 16px;
+  line-height: 1;
+}
+
+.wishlist__remove:hover:not(:disabled) .wishlist__heart {
+  color: inherit;
+}
+
+@media (max-width: 768px) {
+  .wishlist__count {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .wishlist__actions {
+    flex-direction: column;
+  }
+}
