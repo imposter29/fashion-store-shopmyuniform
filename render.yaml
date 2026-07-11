@@ -1,0 +1,27 @@
+# Render Blueprint for the StyleCart API (backend only).
+# The frontend deploys separately to Vercel.
+#
+# Usage: in Render, New > Blueprint, point it at this repo. Then set the
+# secret env vars (MONGO_URI, CLIENT_ORIGIN) in the dashboard.
+services:
+  - type: web
+    name: stylecart-api
+    runtime: node
+    rootDir: stylecart
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # JWT signing secret — let Render generate a strong one.
+      - key: JWT_SECRET
+        generateValue: true
+      # MongoDB Atlas connection string — set in the dashboard (secret).
+      - key: MONGO_URI
+        sync: false
+      # Your Vercel origin(s), comma-separated, e.g.
+      # https://stylecart.vercel.app,https://stylecart-git-main-you.vercel.app
+      - key: CLIENT_ORIGIN
+        sync: false
