@@ -24,6 +24,7 @@ const ProductDetail = () => {
   const [selectedSize, setSelectedSize] = useState('');
   const [qty, setQty] = useState(1);
   const [adding, setAdding] = useState(false);
+  const [buying, setBuying] = useState(false);
   const [wishLoading, setWishLoading] = useState(false);
 
   const [reviews, setReviews] = useState([]);
@@ -111,6 +112,26 @@ const ProductDetail = () => {
       showToast(getErrorMessage(err), 'error');
     } finally {
       setAdding(false);
+    }
+  };
+
+  // Buy Now: add the selected item to the cart, then jump straight to checkout.
+  const handleBuyNow = async () => {
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+    if (!product) return;
+    if (hasSizes && !selectedSize) return;
+    const size = hasSizes ? selectedSize : 'One Size';
+    setBuying(true);
+    try {
+      await addToCart(product._id, size, qty);
+      navigate('/checkout');
+    } catch (err) {
+      showToast(getErrorMessage(err), 'error');
+    } finally {
+      setBuying(false);
     }
   };
 
@@ -311,6 +332,16 @@ const ProductDetail = () => {
               }
             >
               {adding ? 'Adding…' : 'Add to Cart'}
+            </button>
+            <button
+              type="button"
+              className="btn btn-accent btn-block pd-actions__buy"
+              onClick={handleBuyNow}
+              disabled={
+                buying || outOfStock || (hasSizes && !selectedSize)
+              }
+            >
+              {buying ? 'Processing…' : 'Buy Now'}
             </button>
             <button
               type="button"
