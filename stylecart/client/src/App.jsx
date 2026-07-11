@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 
+import useSmoothScroll from './hooks/useSmoothScroll.js';
 import Layout from './components/layout/Layout.jsx';
 import AdminLayout from './components/admin/AdminLayout.jsx';
 import ProtectedRoute from './components/common/ProtectedRoute.jsx';
@@ -26,6 +27,8 @@ import ManageCategories from './pages/admin/ManageCategories.jsx';
 import ManageOrders from './pages/admin/ManageOrders.jsx';
 
 const App = () => {
+  useSmoothScroll();
+
   return (
     <Routes>
       {/* Storefront routes share the main Layout (Navbar/Footer). */}
@@ -53,7 +56,7 @@ const App = () => {
           <Route index element={<Dashboard />} />
           <Route path="products" element={<ManageProducts />} />
           <Route path="products/new" element={<ProductForm />} />
-          <Route path="products/:id/edit" element={<ProductForm />} />
+          <Route path="products/edit/:id" element={<ProductForm />} />
           <Route path="categories" element={<ManageCategories />} />
           <Route path="orders" element={<ManageOrders />} />
         </Route>
