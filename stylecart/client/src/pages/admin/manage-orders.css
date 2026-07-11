@@ -1,0 +1,98 @@
+.manage-orders__lead {
+  margin-top: 0.4rem;
+  color: var(--text-light);
+  font-size: 1rem;
+}
+
+/* -------------------------------------------------------------------- */
+/* Filter tabs — editorial underline style                             */
+/* -------------------------------------------------------------------- */
+.order-tabs {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: var(--stack-md);
+  border-bottom: 1px solid var(--border-dark);
+  overflow-x: auto;
+}
+
+.order-tab {
+  position: relative;
+  padding: 0 0 0.85rem;
+  border: none;
+  background: none;
+  color: var(--text-light);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.order-tab::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: transparent;
+  transition: var(--transition);
+}
+
+.order-tab:hover {
+  color: var(--primary);
+}
+
+.order-tab.is-active {
+  color: var(--primary);
+}
+
+.order-tab.is-active::after {
+  background: var(--primary);
+}
+
+/* -------------------------------------------------------------------- */
+/* Customer cell                                                        */
+/* -------------------------------------------------------------------- */
+.order-customer {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-customer__name {
+  font-weight: 600;
+}
+
+.order-customer__email {
+  font-size: 0.78rem;
+  color: var(--text-light);
+}
+
+/* -------------------------------------------------------------------- */
+/* Inline status select (keeps statusBadgeClass tint)                   */
+/* -------------------------------------------------------------------- */
+.order-status-select {
+  min-width: 140px;
+  width: auto;
+  padding: 0.4rem 0.6rem;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.order-status-select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .order-tabs {
+    gap: 1.25rem;
+  }
+}
