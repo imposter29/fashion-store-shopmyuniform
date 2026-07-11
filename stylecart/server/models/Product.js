@@ -70,9 +70,10 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Auto-generate the slug from the name whenever the name changes.
+// Fallback slug generation (e.g. seed inserts). Controllers set the slug
+// explicitly with collision handling, so we only fill it in when missing.
 productSchema.pre('validate', function (next) {
-  if (this.isModified('name') || !this.slug) {
+  if (!this.slug && this.name) {
     this.slug = slugify(this.name);
   }
   next();
