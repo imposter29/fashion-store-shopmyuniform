@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import { useCart } from '../context/CartContext.jsx';
 import { useToast } from '../context/ToastContext.jsx';
+import Loader from '../components/common/Loader.jsx';
 import { formatPrice, getErrorMessage } from '../utils/format';
 import './checkout.css';
 
@@ -29,7 +30,7 @@ const FIELDS = [
 ];
 
 const Checkout = () => {
-  const { cartItems, cartTotal, clearCart } = useCart();
+  const { cartItems, cartTotal, clearCart, loading } = useCart();
   const { showToast } = useToast();
   const navigate = useNavigate();
 
@@ -39,10 +40,16 @@ const Checkout = () => {
 
   const isEmpty = cartItems.length === 0;
 
-  // Nothing to check out — send the user back to the cart.
+  // If the cart is genuinely empty (not just still loading, e.g. during the
+  // post-login merge), send the user back to the cart. The short grace period
+  // tolerates the cart settling right after login.
   useEffect(() => {
-    if (isEmpty) navigate('/cart');
-  }, [isEmpty, navigate]);
+    if (loading || !isEmpty) return undefined;
+    const t = setTimeout(() => {
+      if (cartItems.length === 0) navigate('/cart');
+    }, 600);
+    return () => clearTimeout(t);
+  }, [loading, isEmpty, cartItems.length, navigate]);
 
   const shipping = cartTotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
   const orderTotal = cartTotal + shipping;
@@ -91,7 +98,9 @@ const Checkout = () => {
     }
   };
 
-  if (isEmpty) return null;
+  if (loading || isEmpty) {
+    return <Loader message="Preparing checkout…" fullPage />;
+  }
 
   return (
     <div className="container checkout-page">

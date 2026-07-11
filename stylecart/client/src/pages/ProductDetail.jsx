@@ -115,19 +115,21 @@ const ProductDetail = () => {
     }
   };
 
-  // Buy Now: add the selected item to the cart, then jump straight to checkout.
+  // Buy Now: add the selected item to the cart (works for guests too), then go
+  // to checkout — or to login first for guests, returning them to checkout
+  // where the just-added item is waiting after the cart merges.
   const handleBuyNow = async () => {
-    if (!isAuthenticated) {
-      navigate('/login');
-      return;
-    }
     if (!product) return;
     if (hasSizes && !selectedSize) return;
     const size = hasSizes ? selectedSize : 'One Size';
     setBuying(true);
     try {
       await addToCart(product._id, size, qty);
-      navigate('/checkout');
+      if (isAuthenticated) {
+        navigate('/checkout');
+      } else {
+        navigate('/login', { state: { from: { pathname: '/checkout' } } });
+      }
     } catch (err) {
       showToast(getErrorMessage(err), 'error');
     } finally {
@@ -331,7 +333,13 @@ const ProductDetail = () => {
                 adding || outOfStock || (hasSizes && !selectedSize)
               }
             >
-              {adding ? 'Adding…' : 'Add to Cart'}
+              {outOfStock
+                ? 'Out of Stock'
+                : hasSizes && !selectedSize
+                  ? 'Select a Size'
+                  : adding
+                    ? 'Adding…'
+                    : 'Add to Cart'}
             </button>
             <button
               type="button"
@@ -341,7 +349,13 @@ const ProductDetail = () => {
                 buying || outOfStock || (hasSizes && !selectedSize)
               }
             >
-              {buying ? 'Processing…' : 'Buy Now'}
+              {outOfStock
+                ? 'Out of Stock'
+                : hasSizes && !selectedSize
+                  ? 'Select a Size'
+                  : buying
+                    ? 'Processing…'
+                    : 'Buy Now'}
             </button>
             <button
               type="button"
