@@ -1,0 +1,228 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  width: 100%;
+  background: rgba(253, 248, 248, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(196, 199, 199, 0.3);
+  transition: box-shadow 0.2s ease;
+}
+
+.navbar.is-scrolled {
+  box-shadow: var(--shadow-sm);
+}
+
+.navbar__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  height: 80px;
+  padding: 0 var(--margin-mobile);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar__brand {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+/* Center nav links */
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-left: 2.5rem;
+}
+
+.navbar__link {
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  transition: var(--transition);
+}
+
+.navbar__link:hover {
+  color: var(--primary);
+}
+
+.navbar__link.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.navbar__links-auth {
+  display: none;
+}
+
+/* Right-side actions */
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-left: auto;
+  color: var(--primary);
+}
+
+.navbar__icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: var(--primary);
+  transition: opacity 0.2s ease;
+}
+
+.navbar__icon:hover {
+  opacity: 0.65;
+}
+
+.navbar__icon .material-symbols-outlined,
+.navbar__user-btn .material-symbols-outlined {
+  font-size: 24px;
+}
+
+.navbar__badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar__user {
+  position: relative;
+  display: inline-flex;
+}
+
+.navbar__user-btn {
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: var(--primary);
+  transition: opacity 0.2s ease;
+}
+.navbar__user-btn:hover {
+  opacity: 0.65;
+}
+
+.navbar__dropdown {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+  background: var(--surface-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  min-width: 190px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 600;
+}
+
+.navbar__dropdown-name {
+  padding: 0.85rem 1.1rem 0.6rem;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar__dropdown a,
+.navbar__dropdown button {
+  padding: 0.7rem 1.1rem;
+  text-align: left;
+  background: none;
+  border: none;
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--text);
+  transition: var(--transition);
+}
+
+.navbar__dropdown a:hover,
+.navbar__dropdown button:hover {
+  background: var(--bg-secondary);
+  color: var(--accent);
+}
+
+.navbar__hamburger {
+  display: none;
+  align-items: center;
+  background: none;
+  border: none;
+  color: var(--primary);
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .navbar__hamburger {
+    display: inline-flex;
+    order: -1;
+  }
+
+  .navbar__brand {
+    font-size: 1.35rem;
+  }
+
+  .navbar__links {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    margin-left: 0;
+    background: var(--surface-white);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 0.5rem var(--margin-mobile) 1.25rem;
+    display: none;
+  }
+
+  .navbar__links.is-open {
+    display: flex;
+  }
+
+  .navbar__link {
+    width: 100%;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .navbar__link.active {
+    border-bottom-color: var(--border);
+    color: var(--accent);
+  }
+
+  .navbar__links-auth {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding-top: 1rem;
+  }
+}
