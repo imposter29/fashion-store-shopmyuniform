@@ -1,0 +1,386 @@
+/* ==================================================================== */
+/* Home — Premium Editorial Commerce                                    */
+/* ==================================================================== */
+
+.home {
+  /* Full-bleed bands (hero, brand story) break past the container with
+     width:100vw + negative margins. `body` already has overflow-x:hidden,
+     so we must NOT clip here — clipping would crop those bands back to the
+     content width and reveal the page background as side "bezels". */
+  overflow-x: visible;
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero — full-bleed dark band with overlay                           */
+/* ------------------------------------------------------------------ */
+.hero {
+  position: relative;
+  /* Break out of .layout__main padding/max-width to sit edge to edge. */
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-top: calc(-1 * var(--stack-md));
+  margin-bottom: var(--stack-xl);
+  min-height: 600px;
+  height: 78vh;
+  max-height: 820px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 22% 18%, rgba(200, 16, 46, 0.28), transparent 46%),
+    radial-gradient(circle at 82% 82%, rgba(49, 48, 48, 0.7), transparent 55%),
+    linear-gradient(135deg, #1c1b1b 0%, #111111 55%, #050505 100%);
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  padding: 0 var(--margin-mobile);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  color: #ffffff;
+  font-size: clamp(2.25rem, 6vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  animation: home-fade-up 1s ease-out both;
+}
+
+.hero__subtitle {
+  font-size: clamp(1rem, 2.2vw, 1.125rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 34rem;
+  margin-bottom: 2.5rem;
+  animation: home-fade-up 1s ease-out 0.15s both;
+}
+
+.hero__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: #111111;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 1rem 2.25rem;
+  border-radius: 0;
+  transition: var(--transition);
+  animation: home-fade-up 1s ease-out 0.3s both;
+}
+
+.hero__cta:hover {
+  background: var(--bg-container-highest);
+  color: #111111;
+}
+
+@keyframes home-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Section header                                                     */
+/* ------------------------------------------------------------------ */
+.home-section {
+  margin-bottom: var(--stack-xl);
+}
+
+.section__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: var(--stack-md);
+}
+
+.section__head .section__title {
+  margin-bottom: 0;
+}
+
+.section__subtitle {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: var(--text-light);
+}
+
+.section__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--primary);
+  white-space: nowrap;
+  border-bottom: 1px solid var(--primary);
+  padding-bottom: 4px;
+  transition: var(--transition);
+}
+
+.section__link .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.section__link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ------------------------------------------------------------------ */
+/* Category grid — editorial cards with dark overlay                  */
+/* ------------------------------------------------------------------ */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gutter);
+}
+
+.category-card {
+  position: relative;
+  display: block;
+  min-height: 340px;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background:
+    radial-gradient(circle at 30% 25%, rgba(200, 16, 46, 0.22), transparent 55%),
+    linear-gradient(160deg, #313030 0%, #1c1b1b 60%, #050505 100%);
+  transition: var(--transition);
+}
+
+.category-card:nth-child(4n + 2) {
+  background:
+    radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.1), transparent 55%),
+    linear-gradient(160deg, #2a2930 0%, #14131c 100%);
+}
+
+.category-card:nth-child(4n + 3) {
+  background: linear-gradient(160deg, #3a2226 0%, #1a1113 100%);
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.category-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.7s ease;
+}
+
+.category-card:hover .category-card__img {
+  transform: scale(1.06);
+}
+
+.category-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0.15) 45%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.category-card__body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.category-card__name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #ffffff;
+}
+
+.category-card__count {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.category-card__explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  transition: var(--transition);
+}
+
+.category-card__explore .material-symbols-outlined {
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.category-card:hover .category-card__explore {
+  color: var(--secondary-fixed, #ffb3b1);
+}
+
+.category-card:hover .category-card__explore .material-symbols-outlined {
+  transform: translateX(4px);
+}
+
+/* ------------------------------------------------------------------ */
+/* Brand story — quiet full-bleed band                                */
+/* ------------------------------------------------------------------ */
+.brand-story {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-bottom: var(--stack-xl);
+  padding: var(--stack-xl) var(--margin-mobile);
+  background: var(--bg-secondary);
+}
+
+.brand-story__inner {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.brand-story__eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.brand-story__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2rem);
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 1.25rem;
+}
+
+.brand-story__text {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--text-light);
+  margin-bottom: 2rem;
+}
+
+.brand-story__link {
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 4px;
+  transition: var(--transition);
+}
+
+.brand-story__link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ------------------------------------------------------------------ */
+/* Responsive                                                         */
+/* ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .hero {
+    height: auto;
+    min-height: 480px;
+    padding: 5rem 0;
+  }
+  .section__head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .category-card {
+    min-height: 300px;
+  }
+  .brand-story {
+    padding: var(--stack-md) var(--margin-mobile);
+  }
+  .brand-story__text {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    min-height: 420px;
+  }
+  .hero__cta {
+    width: 100%;
+    max-width: 20rem;
+  }
+  .category-grid {
+    grid-template-columns: 1fr;
+  }
+  .category-card {
+    min-height: 260px;
+  }
+  .category-card__name {
+    font-size: 1.35rem;
+  }
+}
